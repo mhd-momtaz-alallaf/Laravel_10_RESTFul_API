@@ -18,8 +18,23 @@ class Product extends Model
     	'quantity',
     	'status',
     	'image',
-    	'seller_id',
+    	'seller_id', // the table that have the forignkey will have a ->belongsTo() relation with the table of the forignkey (with the Seller) the Prodect ->belongsTo(Seller) 
     ];
+
+    public function seller()
+    {
+        return $this->belongsTo(Seller::class);
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
 
     public function isAvailable()
     {
