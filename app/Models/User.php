@@ -56,6 +56,23 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    // the Mutators will change the actual data in the database (before storing)
+    public function setNameAttribute($name) // the mutator name is Name.
+    {
+        $this->attributes['name'] = strtolower($name); // this Mutators will change the names to lowercase.
+    }
+
+    // the Accessor will not change the actual data, it just for viewing.
+    public function getNameAttribute($name)
+    {
+        return ucwords($name); // this Accessor will show the ferst letter of the names as uppercase.
+    }
+
+    public function setEmailAttribute($email)
+    {
+        $this->attributes['email'] = strtolower($email); // this Mutators will change the emails to lowercase.
+    }
+
     public function isVerified()
     {
         return $this->verified == User::VERIFIED_USER;
