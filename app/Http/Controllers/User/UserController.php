@@ -16,7 +16,7 @@ class UserController extends ApiController
     {
         $users = User::all();
 
-        return response()->json(['data' => $users], 200);
+        return $this->showAll($users);
     }
 
     /**
@@ -40,7 +40,7 @@ class UserController extends ApiController
 
         $user = User::create($data);
 
-        return response()->json(['data' => $user], 201); // 201 => data created successfuly.
+        return $this->showOne($user, 201); // 201 => data created successfuly.
     }
 
     /**
@@ -48,7 +48,7 @@ class UserController extends ApiController
      */
     public function show(User $user)
     {
-        return response()->json(['data' => $user], 200);
+        return $this->showOne($user);
     }
 
     /**
@@ -98,7 +98,7 @@ class UserController extends ApiController
 
         $user->save();
 
-        return response()->json(['data' => $user], 200);
+        return $this->showOne($user);
     }
     
 
