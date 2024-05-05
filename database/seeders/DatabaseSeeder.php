@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
             $this->command->info('Database was refreshed');
         }
 
-        \App\Models\User::factory(200)->create();
+        \App\Models\User::factory(1000)->create();
 
         $this->call(CategorySeeder::class);
 

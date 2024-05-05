@@ -23,25 +23,36 @@ use Illuminate\Support\Facades\Route;
 /**
  * Users
  */
-Route::resource('users',UserController::class)->except(['create','edit']);
+Route::resource('users',UserController::class)
+    ->except(['create','edit']);
+
 /**
  * Buyers
  */
-Route::resource('buyers',BuyerController::class)->only(['index','show']);
+Route::resource('buyers',BuyerController::class)
+    ->only(['index', 'show']);
+
 /**
  * Sellers
  */
-Route::resource('sellers',SellerController::class)->only(['index','show']);
+Route::resource('sellers',SellerController::class)
+    ->only(['index','show']);
+
 /**
  * Transactions
  */
-Route::resource('transactions',TransactionController::class)->only(['index','show']);
+Route::resource('transactions',TransactionController::class)
+    ->only(['index','show']);
+
 /**
  * Products
  */
-Route::resource('products',ProductController::class)->only(['index','show']);
+Route::resource('products',ProductController::class)
+    ->only(['index','show']);
+
 /**
  * Categories
  */
-Route::resource('categories',CategoryController::class)->except(['create','edit']);
+Route::resource('categories',CategoryController::class)
+    ->except(['create','edit']);
 
