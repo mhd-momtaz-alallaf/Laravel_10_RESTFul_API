@@ -104,8 +104,10 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+
+        return response(status: 204);  // dont send any message when delete anything, just return the status 204 (no content).
     }
 }
