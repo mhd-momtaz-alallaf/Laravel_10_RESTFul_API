@@ -56,3 +56,7 @@ Route::resource('products',ProductController::class)
 Route::resource('categories',CategoryController::class)
     ->except(['create','edit']);
 
+    
+Route::fallback(function (){
+    abort(404, 'API resource not found');
+});
