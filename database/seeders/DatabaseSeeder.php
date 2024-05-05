@@ -18,5 +18,20 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        if ($this->command->confirm('Do you want to refresh the database?')) {
+            $this->command->call('migrate:refresh');
+            $this->command->info('Database was refreshed');
+        }
+
+        \App\Models\User::factory(200)->create();
+
+        $this->call(CategorySeeder::class);
+
+        $this->call(ProductSeeder::class);
+        
+        $this->call(TransactionSeeder::class);
+
+
     }
 }

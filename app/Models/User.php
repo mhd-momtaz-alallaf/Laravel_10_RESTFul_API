@@ -19,6 +19,8 @@ class User extends Authenticatable
     const ADMIN_USER = 'true';
     const REGULAR_USER = 'false';
 
+    protected $table ='users'; // to tell laravel to use 'users' table for the Seller and the Buyer models.
+
     /**
      * The attributes that are mass assignable.
      *
