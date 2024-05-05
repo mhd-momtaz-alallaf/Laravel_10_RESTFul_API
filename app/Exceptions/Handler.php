@@ -2,6 +2,8 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -26,5 +28,13 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function invalidJson($request, ValidationException $exception) // to have the ValidationException errors as JSON type
+    {
+        return response()->json([
+            'message' => 'The given data was invalid.',
+            'errors' => $exception->errors(),
+        ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
     }
 }
