@@ -80,20 +80,14 @@ class UserController extends ApiController
 
         if ($request->has('admin')) {
             if (!$user->isVerified()) {
-                return response()->json([
-                'error' => 'Only verified users can modify the admin field',
-                'code' => 409
-                ], 409); // 409 Conflict code
+                return $this->errorResponse('Only verified users can modify the admin field', 409); // 409 Conflict code, the errorResponse is a function from the ApiResponser Trait.
             }
 
             $user->admin = $request->admin;
         }
 
         if (!$user->isDirty()) { // ->isDirty() means the user has changed (one argument at least in the user model has changed).
-            return response()->json([
-                'error' => 'You need to specify a different value to update', 
-                'code' => 422
-            ], 422); // 422 Unprocessable Content
+            return $this->errorResponse('You need to specify a different value to update', 422); // 422 Unprocessable Content, the errorResponse is a function from the ApiResponser Trait.
         }
 
         $user->save();
