@@ -24,6 +24,8 @@ return new class extends Migration
 
             $table->timestamps();
 
+            $table->softDeletes();//deleted_at
+
             $table->foreign('seller_id')->references('id')->on('users');
         });
     }
