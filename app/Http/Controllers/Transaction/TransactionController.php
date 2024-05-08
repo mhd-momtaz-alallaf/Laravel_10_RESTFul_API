@@ -16,8 +16,8 @@ class TransactionController extends ApiController
         return $this->showAll($tramsactions);
     }
 
-    public function show(Transaction $tramsaction)
+    public function show(Transaction $transaction)
     {
-        return $this->showOne($tramsaction);
+        return $this->showOne($transaction);
     }
 }
