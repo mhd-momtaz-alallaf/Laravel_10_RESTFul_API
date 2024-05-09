@@ -5,6 +5,7 @@ use App\Http\Controllers\Buyer\BuyerController;
 use App\Http\Controllers\Buyer\BuyerProductController;
 use App\Http\Controllers\Buyer\BuyerSellerController;
 use App\Http\Controllers\Buyer\BuyerTransactionController;
+use App\Http\Controllers\Category\CategoryBuyerController;
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Category\CategoryProductController;
 use App\Http\Controllers\Category\CategorySellerController;
@@ -82,7 +83,9 @@ Route::resource('categories.sellers', CategorySellerController::class)
     ->only(['index']);
 Route::resource('categories.transactions', CategoryTransactionController::class)
     ->only(['index']);
-    
+Route::resource('categories.buyers', CategoryBuyerController::class)
+    ->only(['index']);
+
 /**
  * 404 Route Not found
  */    
