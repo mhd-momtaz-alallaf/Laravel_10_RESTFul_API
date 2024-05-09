@@ -13,6 +13,10 @@ class Product extends Model
     const AVAILABLE_PRODUCT = 'available';
 	const UNAVAILABLE_PRODUCT = 'unavailable';
 
+    protected $hidden = [ // to hide the pivot field from the response
+        'pivot'
+    ];
+
     protected $dates = ['deleted_at']; // for softDeleting.
 
     protected $fillable = [

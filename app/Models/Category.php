@@ -10,6 +10,10 @@ class Category extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $hidden = [ // to hide the pivot field from the response
+        'pivot'
+    ];
+
     protected $dates = ['deleted_at']; // for softDeleting.
 
     protected $fillable = [
