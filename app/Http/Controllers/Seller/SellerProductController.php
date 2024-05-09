@@ -17,18 +17,6 @@ class SellerProductController extends ApiController
 
         return $this->showAll($products);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request, User $seller) // we used User not Seller beacause the user may have to be a seller by posting his first product
     {
         $rules = [
@@ -51,26 +39,6 @@ class SellerProductController extends ApiController
         return $this->showOne($product);
     }
 
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Seller $seller)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Seller $seller)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Seller $seller, Product $product)
     {
         $rules = [
@@ -106,9 +74,6 @@ class SellerProductController extends ApiController
         return $this->showOne($product);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Seller $seller, Product $product)
     {
         $this->checkSeller($seller, $product);
@@ -117,7 +82,6 @@ class SellerProductController extends ApiController
 
         return response(status: 204);  // dont send any message when delete anything, just return the status 204 (no content).
     }
-
 
     protected function checkSeller(Seller $seller, Product $product)
     {
