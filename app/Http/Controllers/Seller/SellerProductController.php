@@ -109,10 +109,15 @@ class SellerProductController extends ApiController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Seller $seller)
+    public function destroy(Seller $seller, Product $product)
     {
-        //
+        $this->checkSeller($seller, $product);
+
+        $product->delete();
+
+        return response(status: 204);  // dont send any message when delete anything, just return the status 204 (no content).
     }
+
 
     protected function checkSeller(Seller $seller, Product $product)
     {
