@@ -31,7 +31,7 @@ class SellerProductController extends ApiController
         $data = $request->all();
 
         $data['status'] = Product::UNAVAILABLE_PRODUCT;
-        $data['image'] = '1.jpg';
+        $data['image'] = $request->image->store(''); // store() accepts tow parameters, the first one is the path but its managed in the images driver so we have to leave it empty, the second one is the driver but we are useing the default driver ( set to images from the env file) so we dont have to pass the second argument at all.
         $data['seller_id'] = $seller->id;
 
         $product = Product::create($data);
