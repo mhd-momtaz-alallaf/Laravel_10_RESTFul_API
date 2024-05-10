@@ -66,6 +66,12 @@ class SellerProductController extends ApiController
             }
         }
 
+        if ($request->hasFile('image')) { // to update the image from the request, dont forget the method spoofing in the postman api form data (send post request with _method field with put value).
+            Storage::delete($product->image); // first we delete the old one.
+
+            $product->image = $request->image->store(''); // secondly we add the new one.
+        }
+
         if ($product->isClean()) {
             return $this->errorResponse('You need to specify a different value to update', 422);
         }
