@@ -105,4 +105,16 @@ class UserController extends ApiController
 
         return response(status: 204);  // dont send any message when delete anything, just return the status 204 (no content).
     }
+
+    public function verify($token)
+    {
+        $user = User::where('verification_token', $token)->firstOrFail();
+
+        $user->verified = User::VERIFIED_USER;
+        $user->verification_token = null;
+
+        $user->save();
+
+        return $this->showMessage('The account has been verified succesfully');
+    }
 }
