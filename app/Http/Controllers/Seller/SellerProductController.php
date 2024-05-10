@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\ApiController;
 use App\Models\Product;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class SellerProductController extends ApiController
@@ -79,6 +80,8 @@ class SellerProductController extends ApiController
         $this->checkSeller($seller, $product);
 
         $product->delete();
+
+        Storage::delete($product->image); // Storage::delete() function accepts a path of the file we want to delete.
 
         return response(status: 204);  // dont send any message when delete anything, just return the status 204 (no content).
     }
