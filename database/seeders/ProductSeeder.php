@@ -13,6 +13,7 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
+        \App\Models\Product::flushEventListeners(); // to not trigger the event listeners whene seeding the data
         \App\Models\Product::factory(1000)->create()->each(
             function ($product) {
         		$categories = Category::all()->random(mt_rand(1, 5))->pluck('id'); // ->pluck('id') to just get the id.

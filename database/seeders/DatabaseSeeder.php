@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             $this->command->info('Database was refreshed');
         }
 
+        \App\Models\User::flushEventListeners(); // to not trigger the event listeners whene seeding the data
         \App\Models\User::factory(1000)->create();
 
         $this->call(CategorySeeder::class);

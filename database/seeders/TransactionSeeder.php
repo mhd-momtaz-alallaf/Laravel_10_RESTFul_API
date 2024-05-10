@@ -12,6 +12,7 @@ class TransactionSeeder extends Seeder
      */
     public function run(): void
     {
+        \App\Models\Transaction::flushEventListeners(); // to not trigger the event listeners whene seeding the data
         \App\Models\Transaction::factory(1000)->create();
     }
 }

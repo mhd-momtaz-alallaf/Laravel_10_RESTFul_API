@@ -12,6 +12,7 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
+        \App\Models\Category::flushEventListeners(); // to not trigger the event listeners whene seeding the data
         \App\Models\Category::factory(30)->create();
     }
 }
