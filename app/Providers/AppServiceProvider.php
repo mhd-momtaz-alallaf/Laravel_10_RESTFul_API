@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Mail\UserCreated;
+use App\Mail\UserMailChanged;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
@@ -23,8 +24,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        User::created(function($user) {
+        User::created(function($user) { // send Email to each newly created user. 
             Mail::to($user)->send(new UserCreated($user));
+        });
+
+        User::updated(function($user) {
+            if ($user->isDirty('email')) { // send Email to Verify the new Email that changed by the user.
+                Mail::to($user)->send(new UserMailChanged($user));
+            }
         });
 
         Product::updated(function($product) { // to automaticly change the status of the product to UNAVAILABLE_PRODUCT if its became a 0.
