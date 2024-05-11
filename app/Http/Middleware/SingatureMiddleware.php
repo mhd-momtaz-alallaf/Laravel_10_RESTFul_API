@@ -14,7 +14,7 @@ class SingatureMiddleware
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
 
-    // this is an after middleware to modify the header name for all requests.
+    // this is an after middleware to modify the header name for all responses.
     public function handle($request, Closure $next, $headerName = 'X-Name'): Response // the best practice for costum Header name to be X-costumName like ('X-Name').
     {
         $response = $next($request);
