@@ -4,8 +4,10 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
+use App\Mail\UserCreated;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends ApiController
 {
@@ -106,7 +108,7 @@ class UserController extends ApiController
         return response(status: 204);  // dont send any message when delete anything, just return the status 204 (no content).
     }
 
-    public function verify($token)
+    public function verifyUser($token)
     {
         $user = User::where('verification_token', $token)->firstOrFail();
 
@@ -116,5 +118,16 @@ class UserController extends ApiController
         $user->save();
 
         return $this->showMessage('The account has been verified succesfully');
+    }
+
+    public function resendVerificationCode(User $user)
+    {
+        if ($user->isVerified()) {
+            return $this->errorResponse('This user is already verified', 409);
+        }
+
+        Mail::to($user)->send(new UserCreated($user));
+
+        return $this->showMessage('The verification email has been resend');
     }
 }
