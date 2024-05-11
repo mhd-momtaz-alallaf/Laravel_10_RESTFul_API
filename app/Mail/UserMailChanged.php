@@ -38,7 +38,7 @@ class UserMailChanged extends Mailable
     public function content(): Content
     {
         return new Content(
-            text: 'emails.confirm',
+            markdown: 'emails.confirm',
         );
     }
 
