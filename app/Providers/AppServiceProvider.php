@@ -30,7 +30,9 @@ class AppServiceProvider extends ServiceProvider
 
         User::updated(function($user) {
             if ($user->isDirty('email')) { // send Email to Verify the new Email that changed by the user.
-                Mail::to($user)->send(new UserMailChanged($user));
+                retry(5, function() use ($user) { // retry() helper is to deal with failed opperations, its trying to resending the email 5 times before throw an error, and its wait for 100 ms before the next try.
+                    Mail::to($user)->send(new UserCreated($user));
+                }, 100);
             }
         });
 

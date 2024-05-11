@@ -126,7 +126,9 @@ class UserController extends ApiController
             return $this->errorResponse('This user is already verified', 409);
         }
 
-        Mail::to($user)->send(new UserCreated($user));
+        retry(5, function() use ($user) { // retry() helper is to deal with failed opperations, its trying to resending the email 5 times before throw an error, and its wait for 100 ms before the next try.
+            Mail::to($user)->send(new UserCreated($user));
+        }, 100);
 
         return $this->showMessage('The verification email has been resend');
     }
