@@ -19,16 +19,38 @@ trait ApiResponser
 
 	protected function showAll(Collection $collection, $code = 200)
 	{
+		if ($collection->isEmpty()) {
+			return $this->successResponse(['data' => $collection], $code);
+		}
+		
+		$modelResource = $collection->first()->modelResource;
+
+		$collection = $this->applyCollectionResource($collection,$modelResource);
+		
 		return $this->successResponse(['data' => $collection], $code);
 	}
 
 	protected function showOne(Model $model, $code = 200)
 	{
+		$modelResource = $model->modelResource;
+
+		$model = $this->applyResource($model,$modelResource);
+
 		return $this->successResponse(['data' => $model], $code);
 	}
 
 	protected function showMessage($message, $code = 200)
 	{
 		return $this->successResponse(['data' => $message], $code);
+	}
+
+	protected function applyCollectionResource($model, $modelResource)
+	{
+		return $modelResource::collection($model);
+	}
+
+	protected function applyResource($model, $modelResource)
+	{
+		return new $modelResource($model);
 	}
 }

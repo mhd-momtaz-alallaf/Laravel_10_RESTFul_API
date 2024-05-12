@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Resources\ProductResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -12,6 +13,8 @@ class Product extends Model
 
     const AVAILABLE_PRODUCT = 'available';
 	const UNAVAILABLE_PRODUCT = 'unavailable';
+
+    public $modelResource = ProductResource::class;
 
     protected $hidden = [ // to hide the pivot field from the response
         'pivot'

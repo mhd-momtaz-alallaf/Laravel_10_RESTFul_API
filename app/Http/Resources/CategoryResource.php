@@ -18,8 +18,8 @@ class CategoryResource extends JsonResource
             'identifier' => (int)$this->id,
             'title' => (string)$this->name,
             'details' => (string)$this->description,
-            'creationDate' => $this->created_at,
-            'lastChange' => $this->updated_at,
+            'creationDate' => (string)$this->created_at,
+            'lastChange' => (string)$this->updated_at,
             'deletedDate' => isset($this->deleted_at) ? (string) $this->deleted_at : null,
         ];
     }

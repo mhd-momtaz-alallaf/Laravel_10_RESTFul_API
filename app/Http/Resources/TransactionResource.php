@@ -19,8 +19,8 @@ class TransactionResource extends JsonResource
             'quantity' => (int)$this->quantity,
             'buyer' => (int)$this->buyer_id,
             'product' => (int)$this->product_id,
-            'creationDate' => $this->created_at,
-            'lastChange' => $this->updated_at,
+            'creationDate' => (string)$this->created_at,
+            'lastChange' => (string)$this->updated_at,
             'deletedDate' => isset($this->deleted_at) ? (string) $this->deleted_at : null,
         ];
     }

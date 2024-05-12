@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Http\Resources\UserResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -19,6 +21,8 @@ class User extends Authenticatable
 
     const ADMIN_USER = 'true';
     const REGULAR_USER = 'false';
+
+    public $modelResource = UserResource::class;
 
     protected $table ='users'; // to tell laravel to use 'users' table for the Seller and the Buyer models.
 

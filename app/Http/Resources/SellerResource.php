@@ -19,8 +19,8 @@ class SellerResource extends JsonResource
             'name' => (string)$this->name,
             'email' => (string)$this->email,
             'isVerified' => (int)$this->verified,
-            'creationDate' => $this->created_at,
-            'lastChange' => $this->updated_at,
+            'creationDate' => (string)$this->created_at,
+            'lastChange' => (string)$this->updated_at,
             'deletedDate' => isset($this->deleted_at) ? (string) $this->deleted_at : null,
         ];
     }

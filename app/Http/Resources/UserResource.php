@@ -20,8 +20,8 @@ class UserResource extends JsonResource
             'email' => (string)$this->email,
             'isVerified' => (int)$this->verified,
             'isAdmin' => ($this->admin === 'true'), // to return 'true' or 'false' string insted of bool
-            'creationDate' => $this->created_at,
-            'lastChange' => $this->updated_at,
+            'creationDate' => (string)$this->created_at,
+            'lastChange' => (string)$this->updated_at,
             'deletedDate' => isset($this->deleted_at) ? (string) $this->deleted_at : null,
         ];
     }
