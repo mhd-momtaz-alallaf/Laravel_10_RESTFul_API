@@ -25,6 +25,7 @@ trait ApiResponser
 		
 		$modelResource = $collection->first()->modelResource;
 
+		$collection = $this->filterData($collection, $modelResource); // to filter the data by any requested route parameters.
 		$collection = $this->sortData($collection, $modelResource); // to sort the data by the requested route parameter.
 		$collection = $this->applyCollectionResource($collection,$modelResource);
 		
@@ -43,6 +44,19 @@ trait ApiResponser
 	protected function showMessage($message, $code = 200)
 	{
 		return $this->successResponse(['data' => $message], $code);
+	}
+
+	protected function filterData(Collection $collection, $modelResource) // to filter the data by any attributes
+	{
+		foreach (request()->query() as $query => $value) {
+			$attribute = $modelResource::originalAttribute($query); // the filtring will made using the resource attributes names.
+
+			if (isset($attribute, $value)) { // if the $attribute, $value is passed from the request..
+				$collection = $collection->where($attribute, $value); // so get the results whrere (name = Frankie) by example.
+			}
+		}
+
+		return $collection;
 	}
 
 	protected function sortData(Collection $collection, $modelResource) // to sort the data by the requested route parameter.
