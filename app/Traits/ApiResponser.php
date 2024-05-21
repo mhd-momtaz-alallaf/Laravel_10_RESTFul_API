@@ -2,8 +2,10 @@
 
 namespace App\Traits;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 trait ApiResponser
 {
@@ -27,6 +29,7 @@ trait ApiResponser
 
 		$collection = $this->filterData($collection, $modelResource); // to filter the data by any requested route parameters.
 		$collection = $this->sortData($collection, $modelResource); // to sort the data by the requested route parameter.
+		$collection = $this->paginate($collection);
 		$collection = $this->applyCollectionResource($collection,$modelResource);
 		
 		return $this->successResponse(['data' => $collection], $code);
@@ -58,6 +61,34 @@ trait ApiResponser
 
 		return $collection;
 	}
+
+	/**
+ * Paginate a given Laravel Collection.
+ *
+ * @param Collection $collection The collection to paginate.
+ * @param int $perPage The number of items per page (default is 15).
+ * @return LengthAwarePaginator The paginated collection.
+ */
+protected function paginate(Collection $collection, $perPage = 15)
+{
+    // Resolve the current page number from the request (or default to 1 if not present)
+    $page = LengthAwarePaginator::resolveCurrentPage();
+
+    // Slice the collection to get the items for the current page
+    $results = $collection->slice(($page - 1) * $perPage, $perPage)->values();
+
+    // Create a new LengthAwarePaginator instance with the sliced results
+    return new LengthAwarePaginator(
+        $results, // The sliced collection items for the current page
+        $collection->count(), // The total number of items in the collection
+        $perPage, // The number of items per page
+        $page, // The current page number
+        [
+            'path' => request()->url(), // The base URL for pagination links
+            'query' => request()->query(), // The query parameters for the pagination links
+        ]
+    );
+}
 
 	protected function sortData(Collection $collection, $modelResource) // to sort the data by the requested route parameter.
 	{
