@@ -25,7 +25,7 @@ trait ApiResponser
 		
 		$modelResource = $collection->first()->modelResource;
 
-		$collection = $this->sortData($collection); // to sort the data by the requested route parameter.
+		$collection = $this->sortData($collection, $modelResource); // to sort the data by the requested route parameter.
 		$collection = $this->applyCollectionResource($collection,$modelResource);
 		
 		return $this->successResponse(['data' => $collection], $code);
@@ -45,10 +45,10 @@ trait ApiResponser
 		return $this->successResponse(['data' => $message], $code);
 	}
 
-	protected function sortData(Collection $collection) // to sort the data by the requested route parameter.
+	protected function sortData(Collection $collection, $modelResource) // to sort the data by the requested route parameter.
 	{
 		if (request()->has('sort_by')) {
-			$attribute = request()->sort_by;
+			$attribute = $modelResource::originalAttribute(request()->sort_by);
 
 			$collection = $collection->sortBy->{$attribute};
 		}
