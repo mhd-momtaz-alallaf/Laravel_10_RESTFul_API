@@ -24,4 +24,19 @@ class TransactionResource extends JsonResource
             'deletedDate' => isset($this->deleted_at) ? (string) $this->deleted_at : null,
         ];
     }
+    
+    public static function originalAttribute($index) // to return the original name of the attribute not the resource attributes name.
+    {
+        $attributes = [
+            'identifier' => 'id',
+            'quantity' => 'quantity',
+            'buyer' => 'buyer_id',
+            'product' => 'product_id',
+            'creationDate' => 'created_at',
+            'lastChange' => 'updated_at',
+            'deletedDate' => 'deleted_at',
+        ];
+
+        return isset($attributes[$index]) ? $attributes[$index] : null;
+    }
 }

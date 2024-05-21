@@ -27,4 +27,22 @@ class ProductResource extends JsonResource
             'deletedDate' => isset($this->deleted_at) ? (string) $this->deleted_at : null,
         ];
     }
+
+    public static function originalAttribute($index) // to return the original name of the attribute not the resource attributes name.
+    {
+        $attributes = [
+            'identifier' => 'id',
+            'title' => 'name',
+            'details' => 'description',
+            'quantity' => 'quantity',
+            'status' => 'status',
+            'picture' => 'image',
+            'seller' => 'seller_id',
+            'creationDate' => 'created_at',
+            'lastChange' => 'updated_at',
+            'deletedDate' => 'deleted_at',
+        ];
+
+        return isset($attributes[$index]) ? $attributes[$index] : null;
+    }
 }
