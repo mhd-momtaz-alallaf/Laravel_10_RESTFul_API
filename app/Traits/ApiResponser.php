@@ -25,6 +25,7 @@ trait ApiResponser
 		
 		$modelResource = $collection->first()->modelResource;
 
+		$collection = $this->sortData($collection); // to sort the data by the requested route parameter.
 		$collection = $this->applyCollectionResource($collection,$modelResource);
 		
 		return $this->successResponse(['data' => $collection], $code);
@@ -42,6 +43,17 @@ trait ApiResponser
 	protected function showMessage($message, $code = 200)
 	{
 		return $this->successResponse(['data' => $message], $code);
+	}
+
+	protected function sortData(Collection $collection) // to sort the data by the requested route parameter.
+	{
+		if (request()->has('sort_by')) {
+			$attribute = request()->sort_by;
+
+			$collection = $collection->sortBy->{$attribute};
+		}
+
+		return $collection;
 	}
 
 	protected function applyCollectionResource($model, $modelResource)
