@@ -6,6 +6,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 trait ApiResponser
 {
@@ -63,32 +64,42 @@ trait ApiResponser
 	}
 
 	/**
- * Paginate a given Laravel Collection.
- *
- * @param Collection $collection The collection to paginate.
- * @param int $perPage The number of items per page (default is 15).
- * @return LengthAwarePaginator The paginated collection.
- */
-protected function paginate(Collection $collection, $perPage = 15)
-{
-    // Resolve the current page number from the request (or default to 1 if not present)
-    $page = LengthAwarePaginator::resolveCurrentPage();
+	 * Paginate a given Laravel Collection.
+	 *
+	 * @param Collection $collection The collection to paginate.
+	 * @param int $perPage The number of items per page (default is 15).
+	 * @return LengthAwarePaginator The paginated collection.
+	 */
+	protected function paginate(Collection $collection, $perPage = 15)
+	{
+		$rules = [
+			'per_page' => 'integer|min:2|max:50',
+		];
 
-    // Slice the collection to get the items for the current page
-    $results = $collection->slice(($page - 1) * $perPage, $perPage)->values();
+		Validator::validate(request()->all(), $rules);
 
-    // Create a new LengthAwarePaginator instance with the sliced results
-    return new LengthAwarePaginator(
-        $results, // The sliced collection items for the current page
-        $collection->count(), // The total number of items in the collection
-        $perPage, // The number of items per page
-        $page, // The current page number
-        [
-            'path' => request()->url(), // The base URL for pagination links
-            'query' => request()->query(), // The query parameters for the pagination links
-        ]
-    );
-}
+		if (request()->has('per_page')) {
+			$perPage = (int) request()->per_page; // custom per_bage numper from the route parameters.
+		}
+
+		// Resolve the current page number from the request (or default to 1 if not present)
+		$page = LengthAwarePaginator::resolveCurrentPage();
+
+		// Slice the collection to get the items for the current page
+		$results = $collection->slice(($page - 1) * $perPage, $perPage)->values();
+
+		// Create a new LengthAwarePaginator instance with the sliced results
+		return new LengthAwarePaginator(
+			$results, // The sliced collection items for the current page
+			$collection->count(), // The total number of items in the collection
+			$perPage, // The number of items per page
+			$page, // The current page number
+			[
+				'path' => request()->url(), // The base URL for pagination links
+				'query' => request()->query(), // The query parameters for the pagination links
+			]
+		);
+	}
 
 	protected function sortData(Collection $collection, $modelResource) // to sort the data by the requested route parameter.
 	{
