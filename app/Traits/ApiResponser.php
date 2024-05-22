@@ -116,12 +116,21 @@ trait ApiResponser
 
 	protected function cacheResponse($data)
 	{
-		$url = request()->url();
+		$url = request()->url(); // get the pase url.
+		
+		$queryParams = request()->query(); // get the query parameters.
+	
+		ksort($queryParams); // sort the query parameters.
 
-		return Cache::remember($url, 30, function() use($data) {
+		$queryString = http_build_query($queryParams); // convert the parameters to url.
+		
+		$fullUrl = "{$url}?{$queryString}"; // compine the pase url with parameters url.
+
+		return Cache::remember($fullUrl, 30, function() use($data) {
 			return $data;
 		});
 	}
+	
 
 	protected function applyCollectionResource($model, $modelResource)
 	{
