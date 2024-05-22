@@ -13,8 +13,16 @@ class ValidateResourceInput // this middleware is for applying the validation on
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next, $modelResource): Response
     {
+        $newInput = []; 
+
+        foreach ($request->request->all() as $input => $value) { // $request->request->all() gets just the passed request parameters like title and description etc..
+            $newInput[$modelResource::originalAttribute($input)] = $value; // assign the resource values like 'title' insted of the original model values like 'name', (now the 'title' will be used not the 'name')
+        }
+
+        $request->replace($newInput); // replace the old request parameters with the new newInput (resource parameters array).
+
         return $next($request);
     }
 }
