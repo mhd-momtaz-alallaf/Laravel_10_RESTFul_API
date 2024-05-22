@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\ApiController;
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Models\Transaction;
 use App\Models\User;
@@ -11,6 +12,14 @@ use Illuminate\Support\Facades\DB;
 
 class ProductBuyerTransactionController extends ApiController
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->middleware('validate.resource.input:' . ProductResource::class)->only(['store']); // this middleware is for applying the validation on the the resource attributes not to on the original attributes of the model (like 'identifier' insted of 'id' etc..)
+    }
+
     // to store the new transaction of the buyer of the product.
     public function store(Request $request, Product $product, User $buyer) // we used User not a Buyer model because maybe this is the first user transaction (befor he became a Buyer).
     {

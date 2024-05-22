@@ -4,11 +4,20 @@ namespace App\Http\Controllers\Category;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends ApiController
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->middleware('validate.resource.input:' . CategoryResource::class)->only(['store', 'update']); // this middleware is for applying the validation on the the resource attributes not to on the original attributes of the model (like 'identifier' insted of 'id' etc..)
+    }
+
     /**
      * Display a listing of the resource.
      */

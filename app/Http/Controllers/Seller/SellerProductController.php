@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Seller;
 use App\Models\Seller;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ApiController;
+use App\Http\Resources\SellerResource;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
@@ -12,6 +13,14 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class SellerProductController extends ApiController
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->middleware('validate.resource.input:' . SellerResource::class)->only(['store', 'update']); // this middleware is for applying the validation on the the resource attributes not to on the original attributes of the model (like 'identifier' insted of 'id' etc..)
+    }
+
     public function index(Seller $seller)
     {
         $products = $seller->products;

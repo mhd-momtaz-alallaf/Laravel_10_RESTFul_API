@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\Mail\UserCreated;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -11,6 +12,14 @@ use Illuminate\Support\Facades\Mail;
 
 class UserController extends ApiController
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->middleware('validate.resource.input:' . UserResource::class)->only(['store', 'update']); // this middleware is for applying the validation on the the resource attributes not to on the original attributes of the model (like 'identifier' insted of 'id' etc..)
+    }
+
     /**
      * Display a listing of the resource.
      */

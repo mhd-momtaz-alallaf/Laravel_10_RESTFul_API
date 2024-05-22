@@ -8,4 +8,9 @@ use Illuminate\Http\Request;
 class ApiController extends Controller
 {
     use ApiResponser; // Trait for Generalizing the Response Methods.
+
+    public function __construct()
+    {
+
+    }
 }
