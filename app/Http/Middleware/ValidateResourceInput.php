@@ -17,12 +17,15 @@ class ValidateResourceInput // this middleware is for applying the validation on
     {
         $newInput = []; 
 
-        foreach ($request->request->all() as $input => $value) { // $request->request->all() gets just the passed request parameters like title and description etc..
+        foreach ($request->request->all() as $input => $value) { // $request->request->all() gets only the passed request parameters like title and description etc..
             $newInput[$modelResource::originalAttribute($input)] = $value; // assign the resource values like 'title' insted of the original model values like 'name', (now the 'title' will be used not the 'name')
         }
 
         $request->replace($newInput); // replace the old request parameters with the new newInput (resource parameters array).
 
+        $request->route()->setParameter('modelResource', $modelResource); // by this statement, the modelResource parameter is available now to the exception handler. This way, when the validation exception is caught, the handler can access the modelResource class to transform the error messages.
+        
+        // Proceed with the request
         return $next($request);
     }
 }
