@@ -6,6 +6,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 
 trait ApiResponser
@@ -32,6 +33,7 @@ trait ApiResponser
 		$collection = $this->sortData($collection, $modelResource); // to sort the data by the requested route parameter.
 		$collection = $this->paginate($collection);
 		$collection = $this->applyCollectionResource($collection,$modelResource);
+		$collection = $this->cacheResponse($collection); // to cach the returned date from the response.
 		
 		return $this->successResponse(['data' => $collection], $code);
 	}
@@ -110,6 +112,15 @@ trait ApiResponser
 		}
 
 		return $collection;
+	}
+
+	protected function cacheResponse($data)
+	{
+		$url = request()->url();
+
+		return Cache::remember($url, 30, function() use($data) {
+			return $data;
+		});
 	}
 
 	protected function applyCollectionResource($model, $modelResource)
