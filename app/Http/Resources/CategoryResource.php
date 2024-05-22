@@ -48,7 +48,7 @@ class CategoryResource extends JsonResource
         ];
     }
 
-    public static function originalAttribute($index) // to return the original name of the attribute not the resource attributes name.
+    public static function originalAttribute($index) // to return the original model name of the attribute not the resource attributes name.
     {
         $attributes = [
             'identifier' => 'id',
@@ -57,6 +57,20 @@ class CategoryResource extends JsonResource
             'creationDate' => 'created_at',
             'lastChange' => 'updated_at',
             'deletedDate' => 'deleted_at',
+        ];
+
+        return isset($attributes[$index]) ? $attributes[$index] : null;
+    }
+
+    public static function resourceAttribute($index) // to return the resource name of the attribute not the original model attributes name.
+    {
+        $attributes = [
+            'id' => 'identifier',
+            'name' => 'title',
+            'description' => 'details',
+            'created_at' => 'creationDate',
+            'updated_at' => 'lastChange',
+            'deleted_at' => 'deletedDate',
         ];
 
         return isset($attributes[$index]) ? $attributes[$index] : null;

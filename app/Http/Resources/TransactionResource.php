@@ -62,4 +62,19 @@ class TransactionResource extends JsonResource
 
         return isset($attributes[$index]) ? $attributes[$index] : null;
     }
+
+    public static function resourceAttribute($index)
+    {
+        $attributes = [
+            'id' => 'identifier',
+            'quantity' => 'quantity',
+            'buyer_id' => 'buyer',
+            'product_id' => 'product',
+            'created_at' => 'creationDate',
+            'updated_at' => 'lastChange',
+            'deleted_at' => 'deletedDate',
+        ];
+
+        return isset($attributes[$index]) ? $attributes[$index] : null;
+    }
 }
