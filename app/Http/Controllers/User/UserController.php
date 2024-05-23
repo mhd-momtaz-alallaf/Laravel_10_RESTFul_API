@@ -16,9 +16,12 @@ class UserController extends ApiController
     public function __construct()
     {
         $this->middleware('client.credentials')->only(['store', 'resend']); // this middleware is to protect some routes from being accessed by any user who dosn't authentecated and verified.
+        // To have access to the routes protected by the middleware client.credentials, we have first to exicute this line in the cmd: (php artisan passport:client) this will generate client_id and client_secret token, then go to the postman and navigate to the route oauth/token, now we have to pass some arguments with the body, 1- 'grant_type' => 'client_credentials', 2- 'client_id' => '3' (the generated client_id), 3- 'client_secret' => 'j3noafBmfkwGS3aENWhESesOlQSh8lE8XQKTEAZm' (the generated client_secret) , send the post request, this will generate a Bearer access_token, copy it and past it with every route have the middleware 'client.credentials' that require this token (by example /categories route).
 
         $this->middleware('auth:api')->except(['store', 'verify', 'resend']);
-
+        // This is a semilar approch to the generate client.credentials token, but the first deffirence is the user who have a password access_token he can access the poth routes protected by the 'client.credentials' middleware and the 'auth:api' middleware, the second deffirence here is the user have to pass his username(email) and the password with the generate token (oauth/token) post request. dont forget to add this line: (Passport::enablePasswordGrant()) to the AuthServiceProvider file.
+        // To have access to the routes protected by the middleware auth:api, we have first to exicute this line in the cmd: (php artisan passport:client --password) this will generate client_id and client_secret token, then go to the postman and navigate to the route oauth/token, now we have to pass some arguments with the body, 1- 'grant_type' => 'password', 2- 'client_id' => '4' (the generated client_id), 3- 'client_secret' => 'pxsWwbJVCxQ4nJlc0Ka71e1zvRRfxszRD7Z3mdyw' (the generated client_secret), 4- 'username' => 'monty66@example.com', 5- 'password' => 'password'(the eamil passord) , send the post request, this will generate a Bearer access_token and refresh_token, copy the access_token it and past it with every route have the middleware 'api:auth' that require this token (by example /users route).
+        
         $this->middleware('validate.resource.input:' . UserResource::class)->only(['store', 'update']); // this middleware is for applying the validation on the the resource attributes not to on the original attributes of the model (like 'identifier' insted of 'id' etc..)
     }
 
