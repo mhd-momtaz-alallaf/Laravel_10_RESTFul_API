@@ -115,6 +115,11 @@ Route::resource('categories.buyers', CategoryBuyerController::class)
     ->only(['index']);
 
 /**
+ * Oauth token
+ */  
+Route::post('oauth/token', '\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken');
+
+/**
  * 404 Route Not found
  */    
 Route::fallback(function (){
