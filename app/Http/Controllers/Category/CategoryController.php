@@ -14,7 +14,9 @@ class CategoryController extends ApiController
     public function __construct()
     {
         $this->middleware('client.credentials')->only(['index', 'show']); // this middleware is to protect some routes from being accessed by any user who dosn't authentecated and verified.
-
+        
+        $this->middleware('auth:api')->except(['index', 'show']);        
+        
         $this->middleware('validate.resource.input:' . CategoryResource::class)->only(['store', 'update']); // this middleware is for applying the validation on the the resource attributes not to on the original attributes of the model (like 'identifier' insted of 'id' etc..)
     }
 

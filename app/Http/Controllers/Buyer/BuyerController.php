@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class BuyerController extends ApiController
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+    
     public function index()
     {
         // the buyer are the user who have at least one transaction.

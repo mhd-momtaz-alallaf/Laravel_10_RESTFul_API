@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class BuyerProductController extends ApiController
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+    
     public function index(Buyer $buyer)
     {
         $products = $buyer->transactions()->with('product') // to get the transactions with the product relation

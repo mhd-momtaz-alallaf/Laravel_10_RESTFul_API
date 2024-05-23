@@ -10,6 +10,8 @@ class ProductCategoryController extends ApiController
 {
     public function __construct()
     {
+        $this->middleware('auth:api')->except(['index']);
+
         $this->middleware('client.credentials')->only(['index']); // this middleware is to protect some routes from being accessed by any user who dosn't authentecated and verified.
     }
 
