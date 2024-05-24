@@ -37,6 +37,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            //\Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,  // if the postman is returning 'unauthenticated' when you trying to navigate the routes protected by the auth:api middleware, even if you passed the Bearer token, then use this middleware.
         ],
 
         'api' => [
